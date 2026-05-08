@@ -524,6 +524,147 @@
       color: rgba(138,154,176,0.55);
     }
 
+    /* ── MODALS ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: rgba(6,15,28,0.88);
+      backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--navy);
+      border: 1px solid var(--border);
+      width: 100%;
+      max-width: 740px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 1.6rem 2rem;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      gap: 1rem;
+    }
+
+    .modal-header h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.2;
+    }
+
+    .modal-header .modal-meta {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 0.3rem;
+      display: block;
+    }
+
+    .modal-close {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      cursor: pointer;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      transition: color 0.2s, border-color 0.2s;
+      line-height: 1;
+    }
+
+    .modal-close:hover { color: var(--white); border-color: rgba(255,255,255,0.3); }
+
+    .modal-body {
+      overflow-y: auto;
+      padding: 2rem;
+      flex: 1;
+      scrollbar-width: thin;
+      scrollbar-color: var(--teal) transparent;
+    }
+
+    .modal-body::-webkit-scrollbar { width: 4px; }
+    .modal-body::-webkit-scrollbar-thumb { background: var(--teal); }
+
+    .modal-body h2 {
+      font-size: 1rem;
+      margin: 1.8rem 0 0.5rem;
+      color: var(--white);
+      font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      letter-spacing: 0.02em;
+    }
+    .modal-body h2:first-child { margin-top: 0; }
+    .modal-body h3 {
+      font-size: 0.9rem;
+      margin: 1.2rem 0 0.4rem;
+      color: var(--cream-dim);
+      font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .modal-body p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.9; margin-bottom: 0.75rem; }
+    .modal-body ul { margin: 0.4rem 0 0.8rem 1.4rem; }
+    .modal-body li { font-size: 0.875rem; color: var(--text-muted); line-height: 1.85; margin-bottom: 0.35rem; }
+    .modal-body strong { color: var(--cream-dim); font-weight: 500; }
+    .modal-body a { color: var(--teal-light); text-decoration: none; }
+    .modal-body a:hover { text-decoration: underline; }
+    .modal-body hr { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      margin: 1rem 0 1.2rem;
+    }
+    .modal-body th {
+      background: rgba(26,127,116,0.1);
+      color: var(--cream-dim);
+      font-weight: 500;
+      padding: 0.6rem 0.8rem;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+    .modal-body td {
+      padding: 0.55rem 0.8rem;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    .policy-link {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      cursor: pointer;
+      padding: 0;
+      text-decoration: underline;
+      text-decoration-color: rgba(138,154,176,0.35);
+      font-family: 'DM Sans', sans-serif;
+      transition: color 0.2s;
+    }
+    .policy-link:hover { color: var(--cream); }
+
     /* ── ANIMATIONS ── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(22px); }
@@ -701,10 +842,267 @@
       <p style="margin-top:1rem;"><a href="mailto:info@essiuk.com" style="color:var(--teal-light);text-decoration:none;">info@essiuk.com</a></p>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2025 ESSI MSO (UK) LIMITED. All rights reserved.</p>
-      <p>Registered in England &amp; Wales</p>
+      <p>&copy; 2026 ESSI MSO (UK) LIMITED. All rights reserved.</p>
+      <div style="display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center;">
+        <button class="policy-link" onclick="openModal('privacy')">Privacy Policy</button>
+        <button class="policy-link" onclick="openModal('cookie')">Cookie Policy</button>
+        <button class="policy-link" onclick="openModal('tos')">Terms of Use</button>
+        <p style="margin:0;">Registered in England &amp; Wales</p>
+      </div>
     </div>
   </footer>
+
+  <!-- ══ MODAL: PRIVACY POLICY ══ -->
+  <div class="modal-overlay" id="modal-privacy" onclick="handleOverlayClick(event, 'privacy')">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="privacy-title">
+      <div class="modal-header">
+        <div>
+          <h3 id="privacy-title">Privacy Policy</h3>
+          <span class="modal-meta">Essi MSO (UK) Limited &mdash; Last updated: 8 May 2026</span>
+        </div>
+        <button class="modal-close" onclick="closeModal('privacy')" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>This privacy policy sets out how <strong>Essi MSO (UK) Limited</strong> (&ldquo;Essi&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo; or &ldquo;our&rdquo;) collects and uses your personal data when you visit our website. Our website is provided for marketing and information purposes only &mdash; we do not sell products or services through this website, and you cannot create an account or register with us through it.</p>
+
+        <h2>1. Important Information and Who We Are</h2>
+        <h3>Purpose of this privacy policy</h3>
+        <p>This privacy policy gives you information about how Essi collects and uses your personal data through your use of this website. This website is not intended for children and we do not knowingly collect data relating to children.</p>
+        <h3>Controller</h3>
+        <p><strong>Essi MSO (UK) Limited</strong> is the controller and is responsible for your personal data. If you have any questions, please contact us at <a href="mailto:info@essiuk.com">info@essiuk.com</a>.</p>
+
+        <h2>2. Types of Personal Data We Collect</h2>
+        <p>Because our website is for marketing and information purposes only, the personal data we collect is limited. We may collect:</p>
+        <ul>
+          <li><strong>Technical Data</strong> &mdash; IP address, browser type and version, time zone, device identifiers, and related technology information.</li>
+          <li><strong>Usage Data</strong> &mdash; pages viewed, time spent on pages, and referring websites.</li>
+          <li><strong>Contact Data</strong> &mdash; your name, email address, telephone number, and any information you provide when contacting us.</li>
+          <li><strong>Marketing and Communications Data</strong> &mdash; your preferences in receiving marketing from us.</li>
+        </ul>
+        <p>We do not collect any Special Categories of Personal Data (such as health, racial or ethnic origin, political opinions, or biometric data).</p>
+
+        <h2>3. How Is Your Personal Data Collected?</h2>
+        <ul>
+          <li><strong>Direct interactions</strong> &mdash; when you contact us by email, post, telephone, or via a contact form.</li>
+          <li><strong>Automated technologies</strong> &mdash; cookies, server logs and similar technologies as you interact with our website. See our Cookie Policy for details.</li>
+          <li><strong>Third parties</strong> &mdash; analytics providers such as Google.</li>
+        </ul>
+
+        <h2>4. How We Use Your Personal Data</h2>
+        <h3>Legal bases</h3>
+        <p>We will only use your personal data when the law allows us to, most commonly under: <strong>Legitimate interests</strong>, <strong>Legal obligation</strong>, or <strong>Consent</strong>.</p>
+        <h3>Purposes</h3>
+        <ul>
+          <li>To respond to enquiries you make through the website.</li>
+          <li>To administer and protect our business and the website.</li>
+          <li>To analyse and improve the website.</li>
+          <li>To send you marketing communications (only where you have consented).</li>
+          <li>To comply with legal obligations.</li>
+        </ul>
+        <h3>Marketing</h3>
+        <p>We will only send you marketing communications by email where you have given consent. You can opt out at any time by contacting us at <a href="mailto:info@essiuk.com">info@essiuk.com</a>.</p>
+
+        <h2>5. Disclosures of Your Personal Data</h2>
+        <p>We may share your personal data with other Essi group companies, external service providers (hosting, analytics, professional advisers), HMRC and other authorities where required, and third parties in the event of a business transfer or merger.</p>
+
+        <h2>6. International Transfers</h2>
+        <p>Some service providers are based outside the UK. Whenever we transfer your personal data out of the UK, we ensure an adequate level of protection is in place, including through recognised adequacy decisions or approved contractual terms (International Data Transfer Agreements).</p>
+
+        <h2>7. Data Security</h2>
+        <p>We have appropriate security measures in place to prevent accidental loss, unauthorised access, alteration or disclosure of your personal data. We will notify you and any applicable regulator of a breach where legally required.</p>
+
+        <h2>8. Data Retention</h2>
+        <p>We retain personal data only as long as necessary. Enquiry correspondence is typically retained for up to 24 months. Server logs are retained for short periods only. Marketing data is retained until you withdraw consent. We may anonymise data for statistical purposes.</p>
+
+        <h2>9. Your Legal Rights</h2>
+        <p>Under data protection law you have the right to: request access, correction, or erasure of your data; object to processing; request restriction of processing; request data portability; and withdraw consent. To exercise any right, contact us at <a href="mailto:info@essiuk.com">info@essiuk.com</a>. We will respond within one month.</p>
+
+        <h2>10. Contact Details</h2>
+        <ul>
+          <li><strong>Company:</strong> Essi MSO (UK) Limited</li>
+          <li><strong>Email:</strong> <a href="mailto:info@essiuk.com">info@essiuk.com</a></li>
+          <li><strong>Address:</strong> 27g Turbine Way, Swaffham, England, PE37 7XD</li>
+        </ul>
+
+        <h2>11. Complaints</h2>
+        <p>You have the right to complain to the Information Commissioner&rsquo;s Office (ICO) at <a href="https://www.ico.org.uk" target="_blank" rel="noopener">www.ico.org.uk</a> or on 0303 123 1113. We would appreciate the chance to address your concerns first &mdash; please contact us in the first instance.</p>
+
+        <h2>12. Changes to This Privacy Policy</h2>
+        <p>We keep our privacy policy under regular review. This version was last updated on 8 May 2026. Historic versions can be obtained by contacting us.</p>
+
+        <h2>13. Third-Party Links</h2>
+        <p>This website may include links to third-party websites. We are not responsible for their privacy practices. When you leave our website, we encourage you to read the privacy policy of every website you visit.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MODAL: COOKIE POLICY ══ -->
+  <div class="modal-overlay" id="modal-cookie" onclick="handleOverlayClick(event, 'cookie')">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cookie-title">
+      <div class="modal-header">
+        <div>
+          <h3 id="cookie-title">Cookie Policy</h3>
+          <span class="modal-meta">Essi MSO (UK) Limited &mdash; Last updated: 8 May 2026</span>
+        </div>
+        <button class="modal-close" onclick="closeModal('cookie')" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>This cookie policy explains how <strong>Essi MSO (UK) Limited</strong> (&ldquo;Essi&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo; or &ldquo;our&rdquo;) uses cookies and similar technologies on our website at <strong>essiuk.com</strong>. This policy should be read alongside our <button class="policy-link" onclick="switchModal('cookie','privacy')">Privacy Policy</button>.</p>
+
+        <h2>1. What Are Cookies?</h2>
+        <p>A cookie is a small text file placed on your browser or device when you visit a website. Cookies allow the website to recognise you and remember information about your visit. We also use similar technologies such as web beacons, pixels and local storage; references to &ldquo;cookies&rdquo; in this policy include these similar technologies.</p>
+        <p>Cookies may be <strong>first-party</strong> (set by us) or <strong>third-party</strong> (set by another organisation whose services we use). They may be <strong>session</strong> cookies (deleted when you close your browser) or <strong>persistent</strong> cookies (remaining on your device for a set period).</p>
+
+        <h2>2. Types of Cookies We Use</h2>
+        <ul>
+          <li><strong>Strictly necessary cookies</strong> &mdash; Required for the website to operate. Cannot be switched off. You can block them in your browser but parts of the website may not function correctly.</li>
+          <li><strong>Analytical or performance cookies</strong> &mdash; Help us understand how visitors use the website. Set only with your consent.</li>
+          <li><strong>Functionality cookies</strong> &mdash; Remember your preferences when you return. Set only with your consent.</li>
+        </ul>
+        <p>We do not use targeting or advertising cookies, and we do not use cookies to build a marketing profile of you.</p>
+
+        <h2>3. Cookies We Use</h2>
+        <table>
+          <thead>
+            <tr><th>Cookie name</th><th>Type</th><th>Purpose</th><th>Duration</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>cookie_consent</td><td>Strictly necessary</td><td>Records your cookie preferences so we do not ask again on every visit.</td><td>12 months</td></tr>
+            <tr><td>session_id</td><td>Strictly necessary</td><td>Maintains your session state as you navigate the website.</td><td>Session</td></tr>
+            <tr><td>_ga, _ga_*</td><td>Analytical (Google Analytics)</td><td>Distinguishes unique visitors and helps us understand how the website is used. Set only with consent.</td><td>Up to 24 months</td></tr>
+            <tr><td>language_pref</td><td>Functionality</td><td>Remembers your language or region preference. Set only with consent.</td><td>12 months</td></tr>
+          </tbody>
+        </table>
+
+        <h2>4. Third-Party Cookies</h2>
+        <p>Some cookies on our website are set by third parties. These include:</p>
+        <ul>
+          <li><strong>Google Analytics</strong> (Google LLC) &mdash; used to analyse how visitors use our website. To opt out across all websites, visit <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">tools.google.com/dlpage/gaoptout</a>.</li>
+        </ul>
+
+        <h2>5. Your Choices About Cookies</h2>
+        <p>When you first visit our website, a cookie banner will ask you to choose which categories of non-essential cookies you accept. You can accept all, reject all non-essential, or customise by category. You can change your preferences at any time via the &ldquo;Cookie settings&rdquo; link at the bottom of any page.</p>
+        <h3>Browser controls</h3>
+        <p>You can also control cookies through your browser settings. Useful information for common browsers:</p>
+        <ul>
+          <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener">Google Chrome</a></li>
+          <li><a href="https://support.mozilla.org/kb/cookies" target="_blank" rel="noopener">Mozilla Firefox</a></li>
+          <li><a href="https://support.microsoft.com/microsoft-edge" target="_blank" rel="noopener">Microsoft Edge</a></li>
+          <li><a href="https://support.apple.com/guide/safari" target="_blank" rel="noopener">Apple Safari</a></li>
+        </ul>
+
+        <h2>6. Cookie Expiry</h2>
+        <p>Session cookies are deleted when you close your browser. All non-essential cookies will expire no later than 12 months after they are set (unless a different period is stated above). We will ask for your consent again before that period expires.</p>
+
+        <h2>7. Changes to This Cookie Policy</h2>
+        <p>We keep this policy under regular review and will update it when cookies change. This version was last updated on 8 May 2026.</p>
+
+        <h2>8. Contact Us</h2>
+        <ul>
+          <li><strong>Company:</strong> Essi MSO (UK) Limited</li>
+          <li><strong>Address:</strong> 27g Turbine Way, Swaffham, England, PE37 7XD</li>
+          <li><strong>Email:</strong> <a href="mailto:info@essiuk.com">info@essiuk.com</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MODAL: TERMS OF USE ══ -->
+  <div class="modal-overlay" id="modal-tos" onclick="handleOverlayClick(event, 'tos')">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="tos-title">
+      <div class="modal-header">
+        <div>
+          <h3 id="tos-title">Website Terms of Use</h3>
+          <span class="modal-meta">Essi MSO (UK) Limited &mdash; Last updated: 8 May 2026</span>
+        </div>
+        <button class="modal-close" onclick="closeModal('tos')" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Please read these terms carefully before using this website.</strong></p>
+
+        <h2>1. About These Terms</h2>
+        <p>These terms of use tell you the rules for using our website at <strong>essiuk.com</strong>, operated by Essi MSO (UK) Limited (&ldquo;Essi&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo; or &ldquo;our&rdquo;). The website is provided for marketing and information purposes only. By using the website, you confirm that you accept these terms and agree to comply with them.</p>
+
+        <h2>2. Who We Are and How to Contact Us</h2>
+        <p><strong>essiuk.com</strong> is operated by <strong>Essi MSO (UK) Limited</strong>, a private limited company registered in England and Wales under company number <strong>16927134</strong>, with our registered office at 27g Turbine Way, Swaffham, England, PE37 7XD.</p>
+        <p>To contact us: <a href="mailto:info@essiuk.com">info@essiuk.com</a></p>
+
+        <h2>3. Other Terms That Apply to You</h2>
+        <p>These terms refer to our <button class="policy-link" onclick="switchModal('tos','privacy')">Privacy Policy</button> and <button class="policy-link" onclick="switchModal('tos','cookie')">Cookie Policy</button>, which also apply to your use of the website.</p>
+
+        <h2>4. Changes to These Terms</h2>
+        <p>We may amend these terms from time to time. Please check these terms each time you use the website. These terms were last updated on 8 May 2026.</p>
+
+        <h2>5. Changes to the Website</h2>
+        <p>We may update and change the website from time to time. We will try to give you reasonable notice of any major changes.</p>
+
+        <h2>6. Availability of the Website</h2>
+        <p>The website is made available free of charge. We do not guarantee that the website will always be available or uninterrupted. We may suspend or withdraw availability for business or operational reasons.</p>
+
+        <h2>7. We May Transfer This Agreement</h2>
+        <p>We may transfer our rights and obligations under these terms to another organisation, and will use reasonable efforts to notify you if this happens.</p>
+
+        <h2>8. The Website Is Intended for Users in the United Kingdom</h2>
+        <p>The website is directed to people residing in the United Kingdom. If you access it from outside the UK, you do so on your own initiative and are responsible for compliance with local laws.</p>
+
+        <h2>9. Use of Material on the Website</h2>
+        <p>We are the owner or licensee of all intellectual property rights in the website and its content. You may print or download extracts for personal, non-commercial use. You must not use any part of the content for commercial purposes without obtaining a licence from us. You must not modify copies of materials you have downloaded, or use illustrations, photographs, or graphics separately from accompanying text.</p>
+
+        <h2>10. No Text or Data Mining, or Web Scraping</h2>
+        <p>You shall not conduct, facilitate, authorise or permit any text or data mining or web scraping in relation to the website for any purpose, including the development, training, fine-tuning or validation of artificial intelligence (AI) systems or models. This includes use of any automated device, program, tool, algorithm or process to access, obtain, copy, monitor or republish any portion of the website or any data accessed via it.</p>
+
+        <h2>11. Linking to the Website</h2>
+        <p>You may link to our home page provided you do so fairly and legally without damaging our reputation. You must not establish a link that suggests any form of association, approval or endorsement on our part where none exists. The website must not be framed on any other site. We reserve the right to withdraw linking permission without notice.</p>
+
+        <h2>12. Do Not Rely on Information on the Website</h2>
+        <p>Content on the website is provided for general information only and is not intended as advice on which you should rely. You must obtain professional or specialist advice before taking or refraining from any action based on website content. We make no warranties that content is accurate, complete or up to date.</p>
+
+        <h2>13. We Are Not Responsible for Websites We Link To</h2>
+        <p>Links to third-party sites are provided for information only and do not represent our approval of those sites or their content. We have no control over their contents.</p>
+
+        <h2>14. We Are Not Responsible for Viruses</h2>
+        <p>We do not guarantee that the website will be secure or free from bugs or viruses. You are responsible for configuring your own technology to access the website safely.</p>
+
+        <h2>15. You Must Not Introduce Viruses or Misuse the Website</h2>
+        <p>You must not misuse the website by knowingly introducing malicious code, attempting to gain unauthorised access, or attacking the website via denial-of-service attacks. Breach of this provision constitutes a criminal offence under the Computer Misuse Act 1990. We will co-operate fully with law enforcement authorities in the event of such a breach.</p>
+
+        <h2>16. Our Responsibility for Loss or Damage</h2>
+        <p>We do not exclude or limit liability where it would be unlawful to do so, including liability for death or personal injury caused by our negligence, or for fraud or fraudulent misrepresentation. <strong>For business users:</strong> we exclude all implied conditions and will not be liable for loss of profits, business interruption, loss of savings, or any indirect or consequential loss. <strong>For consumer users:</strong> the website is provided for domestic and private use only; we have no liability to you for loss of profit or business opportunity.</p>
+
+        <h2>17. How We May Use Your Personal Information</h2>
+        <p>We will only use personal information as set out in our <button class="policy-link" onclick="switchModal('tos','privacy')">Privacy Policy</button>.</p>
+
+        <h2>18. Governing Law and Jurisdiction</h2>
+        <p>These terms are governed by English law. <strong>Consumers</strong> may bring proceedings in the courts of England and Wales, Northern Ireland (if resident there), or Scotland (if resident there). <strong>Business users</strong> agree to the exclusive jurisdiction of the courts of England and Wales.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openModal(id) {
+      document.getElementById('modal-' + id).classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+      document.getElementById('modal-' + id).classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function switchModal(fromId, toId) {
+      closeModal(fromId);
+      setTimeout(() => openModal(toId), 50);
+    }
+    function handleOverlayClick(e, id) {
+      if (e.target === e.currentTarget) closeModal(id);
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        ['privacy','cookie','tos'].forEach(id => {
+          const el = document.getElementById('modal-' + id);
+          if (el && el.classList.contains('open')) closeModal(id);
+        });
+      }
+    });
+  </script>
 
 </body>
 </html>
